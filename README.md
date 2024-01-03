@@ -1,3 +1,13 @@
+# About
+This is a forked repository. Individual changes have been added, see the changelog for details.
+
+## Origin
+[sarbagyastha/youtube_player_flutter](https://github.com/sarbagyastha/youtube_player_flutter)
+
+## Changelog
+- Exit fullscreen mode when changing to portrait orientation
+
+## The original readme follows
 # Youtube Player IFrame
 ![YOUTUBE PLAYER IFRAME](packages/youtube_player_flutter/misc/ypf_banner.png)
 
