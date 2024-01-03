@@ -23,6 +23,7 @@ class YoutubePlayerScaffold extends StatefulWidget {
     required this.controller,
     this.aspectRatio = 16 / 9,
     this.autoFullScreen = true,
+    this.bypassAutoExitFullscreen,
     this.defaultOrientations = DeviceOrientation.values,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.fullscreenOrientations = const [
@@ -36,7 +37,7 @@ class YoutubePlayerScaffold extends StatefulWidget {
     this.enableFullScreenOnVerticalDrag = true,
     this.backgroundColor,
     @Deprecated('Unused parameter. Use `YoutubePlayerParam.userAgent` instead.')
-        this.userAgent,
+    this.userAgent,
   });
 
   /// Builds the child widget.
@@ -52,6 +53,17 @@ class YoutubePlayerScaffold extends StatefulWidget {
 
   /// Whether the player should be fullscreen on device orientation changes.
   final bool autoFullScreen;
+
+  /// Determines if the automatic exit from fullscreen mode should be bypassed
+  /// when changing the device orientation back to portrait.
+  ///
+  /// This is a function that returns a boolean value. If it returns true,
+  /// the player will not automatically exit fullscreen mode when the device
+  /// is oriented back to portrait. This allows for custom logic to define
+  /// when the player should exit fullscreen mode.
+  ///
+  /// By default, this behavior is not enabled.
+  final bool Function()? bypassAutoExitFullscreen;
 
   /// The default orientations for the device.
   final List<DeviceOrientation> defaultOrientations;
@@ -123,6 +135,8 @@ class _YoutubePlayerScaffoldState extends State<YoutubePlayerScaffold> {
                   fullscreenOrientations: widget.fullscreenOrientations,
                   lockedOrientations: widget.lockedOrientations,
                   fullScreenOption: value.fullScreenOption,
+                  bypassAutoExitFullscreen:
+                      widget.bypassAutoExitFullscreen ?? () => false,
                   child: Builder(
                     builder: (context) {
                       if (value.fullScreenOption.enabled) return player;
@@ -140,6 +154,7 @@ class _YoutubePlayerScaffoldState extends State<YoutubePlayerScaffold> {
 class _FullScreen extends StatefulWidget {
   const _FullScreen({
     required this.fullScreenOption,
+    required this.bypassAutoExitFullscreen,
     required this.defaultOrientations,
     required this.fullscreenOrientations,
     required this.lockedOrientations,
@@ -148,6 +163,7 @@ class _FullScreen extends StatefulWidget {
   });
 
   final FullScreenOption fullScreenOption;
+  final bool Function() bypassAutoExitFullscreen;
   final List<DeviceOrientation> defaultOrientations;
   final List<DeviceOrientation> fullscreenOrientations;
   final List<DeviceOrientation> lockedOrientations;
@@ -187,12 +203,17 @@ class _FullScreenState extends State<_FullScreen> with WidgetsBindingObserver {
     final orientation = MediaQuery.of(context).orientation;
     final controller = YoutubePlayerControllerProvider.of(context);
     final isFullScreen = controller.value.fullScreenOption.enabled;
+    final bypassExitFullscreenAutomatic = widget.bypassAutoExitFullscreen;
 
     if (_previousOrientation == orientation) return;
 
     if (!isFullScreen && orientation == Orientation.landscape) {
       controller.enterFullScreen(lock: false);
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    } else if (isFullScreen &&
+        orientation == Orientation.portrait &&
+        !bypassExitFullscreenAutomatic()) {
+      controller.exitFullScreen(lock: false);
     }
 
     _previousOrientation = orientation;
