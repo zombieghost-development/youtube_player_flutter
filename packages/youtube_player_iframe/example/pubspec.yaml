@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  youtube_player_iframe: ^4.0.3
+  youtube_player_iframe:
+    path: ..
 
 dev_dependencies:
   flutter_test:

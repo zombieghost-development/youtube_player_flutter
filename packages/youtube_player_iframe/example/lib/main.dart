@@ -7,8 +7,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:youtube_player_iframe_example/video_list_page.dart';
 
+import 'video_list_page.dart';
 import 'widgets/meta_data_section.dart';
 import 'widgets/play_pause_button_bar.dart';
 import 'widgets/player_state_section.dart';
