@@ -109,6 +109,25 @@ abstract class QueueingFunctions {
     int? index,
     double? startSeconds,
   });
+
+  /// This function loads the specified list and plays it.
+  /// The list can be a playlist or a user's uploaded videos feed.
+  ///
+  /// [playlistId] contains an id that identifies the playlist of videos that YouTube should return.
+  ///
+  /// [listType] specifies the type of results feed that you are retrieving.
+  ///
+  /// [index] specifies the index of the first video in the list that will play.
+  /// The parameter uses a zero-based index, and the default parameter value is 0,
+  /// so the default behavior is to load and play the first video in the list.
+  ///
+  /// [startSeconds] specifies the time from which the first video in the list should start playing.
+  Future<void> loadPlaylistById({
+    required String playlistId,
+    ListType? listType,
+    int? index,
+    double? startSeconds,
+  });
 }
 
 /// The type of playlist.

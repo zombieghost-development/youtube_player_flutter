@@ -182,7 +182,25 @@ class YoutubePlayerController implements YoutubePlayerIFrameAPI {
     return _run(
       'loadPlaylist',
       data: {
-        list.length == 1 ? 'list' : 'playlist': list,
+        'playlist': list,
+        'listType': listType?.value,
+        'index': index,
+        'startSeconds': startSeconds,
+      },
+    );
+  }
+
+  @override
+  Future<void> loadPlaylistById({
+    required String playlistId,
+    ListType? listType,
+    int? index,
+    double? startSeconds,
+  }) {
+    return _run(
+      'loadPlaylist',
+      data: {
+        'list': playlistId,
         'listType': listType?.value,
         'index': index,
         'startSeconds': startSeconds,
