@@ -6,7 +6,9 @@ This is a forked repository. Individual changes have been added, see the changel
 
 ## Changelog
 ### Youtube Player iFrame 
-- Exit fullscreen mode when changing to portrait orientation [#1](https://github.com/zombieghost-development/youtube_player_flutter/issues/1)
+- UPDATE Exit fullscreen mode when changing to portrait orientation [#1](https://github.com/zombieghost-development/youtube_player_flutter/issues/1)
+- UPDATE [YouttubePlayerController loadPlaylist](https://github.com/zombieghost-development/youtube_player_flutter/commit/8f8be1ad470420c29365876ff1dadedf7ad4a596)
+separate functionality between load playlist from a list and from playlistId
 
 ## The original readme follows
 # Youtube Player IFrame
